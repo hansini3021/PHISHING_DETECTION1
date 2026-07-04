@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Phishing Detection</title>
+</head>
+<body>
+    <h2>AI Phishing Detection</h2>
+
+    <input type="text" id="url" placeholder="Enter URL" size="50">
+    <button onclick="checkUrl()">Check</button>
+
+    <p id="result"></p>
+
+    <script>
+        function checkUrl() {
+            fetch("/predict", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    url: document.getElementById("url").value
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById("result").innerText =
+                    data.prediction + " (Confidence: " + data.confidence + "%)";
+            });
+        }
+    </script>
+</body>
+</html>
